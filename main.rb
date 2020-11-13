@@ -1,5 +1,7 @@
 require './question'
 require './game'
+require './player'
+
 
 math_game = Game.new
 
