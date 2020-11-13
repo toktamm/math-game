@@ -4,7 +4,7 @@ class Game
     @player_1 = Player.new("Player 1")
     @player_2 = Player.new("Player 2")
     @players = [@player_1, @player_2]
-    @turn = 1
+    @turn = 0
     @current_player = ""
 
   end
@@ -19,6 +19,7 @@ class Game
 
 
   def new_turn
+    @turn += 1
     @current_player = @players.rotate!.first
     puts "--------------- TURN #{@turn} ---------------"
     @current_question = Question.new
@@ -41,29 +42,23 @@ class Game
 
   def play
     setup
-
-
     until @player_1.is_dead? || @player_2.is_dead?
       new_turn
       puts "#{@current_player.name}: #{@current_question.generate_question}"
-      print ">"
+      print "> "
       answer = gets.chomp.to_i
-      if !@current_question.is_right?(answer)
+      if @current_question.is_right?(answer)
+        puts "YES, #{@current_player.name}! You are correct!"
+      else
+        puts "Seriously, #{@current_player.name}?? No!"
         @current_player.lose_life
       end
       score
     end
 
     game_over
-
-
-
   end
 
 
 end
 
-
-
-# player.lose_life is the method to lose one life
-# player.is_dead? check if the player is without lives 
