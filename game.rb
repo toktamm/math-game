@@ -26,6 +26,23 @@ class Game
   end
 
 
+  def ask_question
+    puts "#{@current_player.name}: #{@current_question.generate_question}"
+    print "> "
+  end
+
+
+  def handle_answer
+    answer = gets.chomp.to_i
+    if @current_question.is_right?(answer)
+      puts "YES, #{@current_player.name}!! You are correct!!"
+    else
+      puts "Seriously, #{@current_player.name}?? No!!"
+      @current_player.lose_life
+    end
+  end
+  
+
   def score
     puts "#{@player_1.name}: #{@player_1.lives}/3 vs #{@player_2.name}: #{@player_2.lives}/3"
   end
@@ -44,15 +61,8 @@ class Game
     setup
     until @player_1.is_dead? || @player_2.is_dead?
       new_turn
-      puts "#{@current_player.name}: #{@current_question.generate_question}"
-      print "> "
-      answer = gets.chomp.to_i
-      if @current_question.is_right?(answer)
-        puts "YES, #{@current_player.name}! You are correct!"
-      else
-        puts "Seriously, #{@current_player.name}?? No!"
-        @current_player.lose_life
-      end
+      ask_question
+      handle_answer
       score
     end
 
